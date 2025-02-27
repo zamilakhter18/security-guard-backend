@@ -35,14 +35,6 @@ export class ResponseHandler {
     });
   }
 
-  // ! is it necessary to have this method?
-  successResponseWithAnotherStatus(res: Response, msg: string) {
-    return res.status(203).json({
-      statusCode: 203,
-      message: msg,
-    });
-  }
-
   errorResponse(res: Response, msg: string) {
     return res.status(400).json({ statusCode: 400, message: msg });
   }

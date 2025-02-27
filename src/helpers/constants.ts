@@ -5,7 +5,7 @@ export enum userTypeEnum {
   INDIVIDUAL = 'individual',
 }
 
-// // Agent Rating Schema Enums
-// export enum agentRatingReviewerUserTypeEnum {
-//   CLIENT = userTypeEnum.CLIENT,
-// }
+export enum serviceLookingForEnum {
+ 
+}
+

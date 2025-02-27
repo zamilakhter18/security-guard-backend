@@ -22,6 +22,12 @@ export class AuthGuard implements CanActivate {
         throw new ForbiddenException('Invalid token payload.');
       }
 
+      //! check if the user exists in the database
+      // const user = await this.userService.findById(payload.id);
+      // if (!user) {
+      //   throw new ForbiddenException('User not found.');
+      // }
+
       request.user = payload; // Attach user data to request
       return true;
     } catch (error) {
