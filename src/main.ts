@@ -13,7 +13,9 @@ async function bootstrap() {
   //Swagger implementation
   const config = new DocumentBuilder()
     .setTitle('Security Guard App API Documentation')
-    .setDescription('The Security Guard App API provides a robust backend for managing security personnel, clients, and companies. It includes features such as user authentication, service management, real-time communication, and security operations tracking. This API is built using NestJS and MongoDB, ensuring scalability and efficiency for security service providers.')
+    .setDescription(
+      'The Security Guard App API provides a robust backend for managing security personnel, clients, and companies. It includes features such as user authentication, service management, real-time communication, and security operations tracking. This API is built using NestJS and MongoDB, ensuring scalability and efficiency for security service providers.',
+    )
     .setVersion('1.0')
     .build();
 

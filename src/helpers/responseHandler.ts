@@ -7,7 +7,7 @@ export class ResponseHandler {
     return res.status(200).json({ statusCode: 200, message: msg });
   }
 
-  successResponseWithData(res: Response, msg: string, responseData ) {
+  successResponseWithData(res: Response, msg: string, responseData) {
     return res
       .status(200)
       .json({ statusCode: 200, message: msg, data: responseData });

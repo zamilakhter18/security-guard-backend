@@ -9,28 +9,31 @@ import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
+    // Env configuration
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+
+    // MongoDB connection
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory:(configService : ConfigService) =>{
+      useFactory: (configService: ConfigService) => {
         const dbUserName = configService.get('DATABASE_USERNAME');
         const dbPassword = configService.get('DATABASE_PASSWORD');
         const dbHost = configService.get('DATABASE_HOST');
         const dbName = configService.get('DATABASE_NAME');
-        const uri = `mongodb+srv://${dbUserName}:${dbPassword}@${dbHost}/${dbName}?retryWrites=true&w=majority`
-        return { uri }
+        const uri = `mongodb+srv://${dbUserName}:${dbPassword}@${dbHost}/${dbName}?retryWrites=true&w=majority`;
+        return { uri };
       },
-      inject : [ConfigService]
-
+      inject: [ConfigService],
     }),
+
     ClientModule,
     IndividualModule,
     CompanyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
-  exports : []
+  exports: [],
 })
 export class AppModule {}
