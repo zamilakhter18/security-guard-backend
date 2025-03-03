@@ -1,8 +1,8 @@
-import { Global, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
 
-Global();
+
 Injectable();
 export class JwtService {
   constructor(private readonly configService: ConfigService) {}
