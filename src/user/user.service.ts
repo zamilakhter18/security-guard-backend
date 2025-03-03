@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from './dto/user.dto';
+import { HashService } from '../helpers/hash.service';
 
 @Injectable()
 export class UserService {
+  constructor(
+    private readonly hashService : HashService
+  ){}
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }
