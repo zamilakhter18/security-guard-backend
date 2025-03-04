@@ -7,26 +7,36 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Validation pipe implementation
+  // Enable global validation pipes
   app.useGlobalPipes(new ValidationPipe());
 
-  //Swagger implementation
-  const config = new DocumentBuilder()
-    .setTitle('Security Guard App API Documentation')
-    .setDescription(
-      'The Security Guard App API provides a robust backend for managing security personnel, clients, and companies. It includes features such as user authentication, service management, real-time communication, and security operations tracking. This API is built using NestJS and MongoDB, ensuring scalability and efficiency for security service providers.',
-    )
-    .setVersion('1.0')
-    .build();
-
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('apis', app, documentFactory, {
-    swaggerOptions: { defaultModelsExpandDepth: -1 },
-  });
-
-  // Get port from .env and listen
+  // Get ConfigService
   const configService = app.get(ConfigService);
-  const port: number = configService.get<number>('PORT') || 3000;
+
+  // checking swagger enable
+  const swaggerEnabled = configService.get<string>('SWAGGER_ENABLE') === 'true';
+  if (swaggerEnabled) {
+    // Swagger setup
+    const config = new DocumentBuilder()
+      .setTitle('Security Guard App API Documentation')
+      .setDescription(
+        'The Security Guard App API provides a robust backend for managing security personnel, clients, and companies. It includes features such as user authentication, service management, real-time communication, and security operations tracking. This API is built using NestJS and MongoDB, ensuring scalability and efficiency for security service providers.',
+      )
+      .setVersion('1.0')
+      .build();
+
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('apis', app, document, {
+      swaggerOptions: { defaultModelsExpandDepth: -1 },
+      jsonDocumentUrl: 'apis/json',
+    });
+  } else {
+    console.log('Swagger documentation is disabled.');
+  }
+
+  // listening on port
+  const port = configService.get<number>('PORT') || 3000;
   await app.listen(port);
+  console.log(`Server is running on port ${port}`);
 }
 bootstrap();
