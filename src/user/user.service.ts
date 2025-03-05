@@ -41,9 +41,19 @@ export class UserService {
         return this.responseHandler.errorResponse(res, 'User update failed');
       }
 
-      return this.responseHandler.successResponse(
+      // Filter only required fields
+      const responseData = {
+        email: updatedUser.email,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        userType: updatedUser.userType,
+        step: updatedUser.step,
+        isProfileSetup: updatedUser.isProfileSetup,
+      };
+      return this.responseHandler.successResponseWithData(
         res,
-        'UserType set successfully',
+        responseData,
+        'User created successfully',
       );
     } catch (error) {
       console.error(error.message);

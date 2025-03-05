@@ -15,34 +15,48 @@ export class AuthService {
     private readonly responseHandler: ResponseHandler,
     private readonly jwtService: JwtService,
     private readonly hashService: HashService,
-  ) {}
+  ) {}  
   async create(res: Response, signUpDto: SignUpDto) {
     try {
       let { email, password } = signUpDto;
-      const isEmailExist = await this.userModel.findOne({email});
+
+      // Check if email already exist
+      const isEmailExist = await this.userModel.findOne({ email });
       if (isEmailExist) {
         return this.responseHandler.errorResponse(res, 'Email already exist');
       }
+
+      // Hash password
       password = await this.hashService.hash(password);
-      const refData = {
+
+      // Create user
+      const createdUser = await this.userModel.create({
         email,
-        firstName : signUpDto.firstName,
-        lastName : signUpDto.lastName,
-        password
-      }
-      const createdUser = await this.userModel.create(refData);
-      const token = await this.jwtService.sign({sub :createdUser.id});
+        firstName: signUpDto.firstName,
+        lastName: signUpDto.lastName,
+        password,
+      });
+
+      // Creating token
+      const token = await this.jwtService.sign({ sub: createdUser.id });
+
+      // Filter only required fields
+      const responseData = {
+        email: createdUser.email,
+        firstName: createdUser.firstName,
+        lastName: createdUser.lastName,
+        step: createdUser.step,
+        isProfileSetup: createdUser.isProfileSetup,
+      };
       return this.responseHandler.successResponseWithDataAndToken(
         res,
-        refData,
-        'User created successfully',
+        responseData,
         token,
+        'User created successfully',
       );
     } catch (error) {
-      console.error(error.message)
+      console.error(error.message);
       return this.responseHandler.catchErrorResponse(res);
     }
   }
-
-
 }

@@ -7,7 +7,7 @@ export class ResponseHandler {
     return res.status(200).json({ statusCode: 200, message: msg });
   }
 
-  successResponseWithData(res: Response, msg: string, responseData) {
+  successResponseWithData(res: Response, responseData, msg: string) {
     return res
       .status(200)
       .json({ statusCode: 200, message: msg, data: responseData });
@@ -52,6 +52,8 @@ export class ResponseHandler {
   }
 
   catchErrorResponse(res: Response) {
-    return res.status(500).json({ statusCode: 500, error: 'Internal Server Error' });
+    return res
+      .status(500)
+      .json({ statusCode: 500, error: 'Internal Server Error' });
   }
 }

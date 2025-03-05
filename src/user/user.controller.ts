@@ -30,21 +30,41 @@ export class UserController {
 
   @Post('set-user-type')
   @ApiOperation({ summary: 'Set user type for an authenticated user' })
-  @ApiResponse({ status: 200, description: 'UserType set successfully', schema: {
-    example: { statusCode: 200, message: 'UserType set successfully' }
-  }})
-  @ApiResponse({ status: 400, description: 'Bad request (validation or other errors)', schema: {
-    example: { statusCode: 400, message: 'Invalid user type' }
-  }})
-  @ApiResponse({ status: 401, description: 'Unauthorized', schema: {
-    example: { statusCode: 401, message: 'Unauthorized user' }
-  }})
-  @ApiResponse({ status: 404, description: 'User not found', schema: {
-    example: { statusCode: 400, message: 'User not found' }
-  }})
-  @ApiResponse({ status: 500, description: 'Internal server error', schema: {
-    example: { statusCode: 500, error: 'Internal Server Error' }
-  }})
+  @ApiResponse({
+    status: 200,
+    description: 'UserType set successfully',
+    schema: {
+      example: { statusCode: 200, message: 'UserType set successfully' },
+    },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request (validation or other errors)',
+    schema: {
+      example: { statusCode: 400, message: 'Invalid user type' },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+    schema: {
+      example: { statusCode: 401, message: 'Unauthorized user' },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+    schema: {
+      example: { statusCode: 400, message: 'User not found' },
+    },
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+    schema: {
+      example: { statusCode: 500, error: 'Internal Server Error' },
+    },
+  })
   setUserType(
     @Req() req: Request,
     @Res() res: Response,
