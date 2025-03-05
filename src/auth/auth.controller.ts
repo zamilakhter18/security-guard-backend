@@ -12,7 +12,7 @@ export class AuthController {
   @Post('sign-up')
   @ApiOperation({ summary: 'Sign up a new user' })
   @ApiResponse({
-    status: 201,
+    status: 200,
     description: 'User created successfully',
     schema: {
       example: {
@@ -29,13 +29,6 @@ export class AuthController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Validation failed',
-    schema: {
-      example: { statusCode: 400, message: 'Validation error' },
-    },
-  })
-  @ApiResponse({
-    status: 409,
     description: 'Email already exists',
     schema: {
       example: { statusCode: 400, message: 'Email already exist' },
