@@ -1,12 +1,17 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
 import { Request } from 'express';
+import { Model } from 'mongoose';
+import { JwtService } from 'src/helpers/jwt.service';
+import { USER_MODEL, UserDocument } from 'src/schemas/user.schema';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    @InjectModel(USER_MODEL) private readonly userModel: Model<UserDocument>,
+    private readonly jwtService: JwtService) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: any = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
 
@@ -15,20 +20,19 @@ export class AuthGuard implements CanActivate {
     }
 
     try {
-      const payload = this.jwtService.verify(token);
-
+      const payload = await this.jwtService.verify(token);
+      // console.debug(payload);
       // Check if payload contains the required fields
-      if (!payload || !payload.userType || !payload.id) {
+      if (!payload) {
         throw new ForbiddenException('Invalid token payload.');
       }
 
-      //! check if the user exists in the database
-      // const user = await this.userService.findById(payload.id);
-      // if (!user) {
-      //   throw new ForbiddenException('User not found.');
-      // }
+      const user = await this.userModel.findById(payload.sub);
+      if (!user) {
+        throw new ForbiddenException('User not found.');
+      }
 
-      request.user = payload; // Attach user data to request
+      request.user = payload;
       return true;
     } catch (error) {
       throw new ForbiddenException('Invalid or expired token.');

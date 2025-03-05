@@ -1,7 +1,7 @@
-import { Global, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
-Injectable()
+@Injectable()
 export class HashService {
   public async hash(password: string): Promise<string> {
     return await bcrypt.hash(password, 10);

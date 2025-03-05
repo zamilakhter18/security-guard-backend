@@ -3,9 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ClientModule } from './client/client.module';
-import { IndividualModule } from './individual/individual.module';
-import { CompanyModule } from './company/company.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -27,10 +26,8 @@ import { CompanyModule } from './company/company.module';
       },
       inject: [ConfigService],
     }),
-
-    ClientModule,
-    IndividualModule,
-    CompanyModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -47,11 +47,11 @@ export class ResponseHandler {
     });
   }
 
-  unAuthorizeErrorResponse(res: any, msg: string) {
+  unAuthorizeErrorResponse(res: Response, msg: string) {
     return res.status(401).json({ statusCode: 401, message: msg });
   }
 
-  catchErrorResponse(res: any, error: string) {
-    return res.status(500).json({ statusCode: 500, error: error });
+  catchErrorResponse(res: Response) {
+    return res.status(500).json({ statusCode: 500, error: 'Internal Server Error' });
   }
 }
