@@ -12,3 +12,15 @@ export class UserTypeDto {
   @IsNotEmpty({ message: 'User type is required' })
   userType: userTypeEnum;
 }
+
+export class ServicesDto {
+  // @ApiProperty({
+  //   example: userTypeEnum.COMPANY,
+  //   enum: userTypeEnum,
+  //   description: 'User type: company, individual, or client',
+  // })
+
+  // @IsEnum(userTypeEnum, { message: 'Invalid user type' })
+  // @IsNotEmpty({ message: 'Service is required' })
+  // userType: userTypeEnum;
+}

@@ -28,7 +28,7 @@ import {
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('set-user-type')
+  @Post('user-type')
   @ApiOperation({ summary: 'Set user type for an authenticated user' })
   @ApiResponse({
     status: 200,
@@ -65,11 +65,20 @@ export class UserController {
       example: { statusCode: 500, error: 'Internal Server Error' },
     },
   })
-  setUserType(
+  async setUserType(
     @Req() req: Request,
     @Res() res: Response,
     @Body() userTypeDto: UserTypeDto,
   ) {
-    return this.userService.setUserType(req, res, userTypeDto);
+    return await this.userService.setUserType(req, res, userTypeDto);
+  }
+
+  @Post('service')
+  async setServices(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() userTypeDto: UserTypeDto,
+  ) {
+    return await this.userService.setUserType(req, res, userTypeDto);
   }
 }

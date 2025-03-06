@@ -6,9 +6,15 @@ import { USER_MODEL, UserSchema } from 'src/schemas/user.schema';
 import { ResponseHandler } from 'src/helpers/responseHandler';
 import { JwtService } from 'src/helpers/jwt.service';
 import { HashService } from 'src/helpers/hash.service';
+import { EMAIL_OTP_MODEL, EmailOtpSchema } from 'src/schemas/email-otp.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: USER_MODEL, schema: UserSchema }])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: USER_MODEL, schema: UserSchema },
+      { name: EMAIL_OTP_MODEL, schema: EmailOtpSchema },
+    ]),
+  ],
   controllers: [AuthController],
   providers: [AuthService, ResponseHandler,JwtService,HashService],
   exports : [MongooseModule]

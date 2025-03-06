@@ -28,8 +28,8 @@ export class UserService {
       }
 
       const updateData: any = { userType: userTypeDto.userType };
-      if (user.step < 2) {
-        updateData.step = 2;
+      if (user.step < 1) {
+        updateData.step = 1;
       }
 
       const updatedUser = await this.userModel.findByIdAndUpdate(
@@ -60,4 +60,5 @@ export class UserService {
       return this.responseHandler.catchErrorResponse(res);
     }
   }
+
 }

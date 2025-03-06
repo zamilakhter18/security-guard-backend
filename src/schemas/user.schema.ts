@@ -97,7 +97,7 @@ export class User extends Document {
   @Prop({})
   deviceToken: string;
 
-  @Prop({ default: 1 })
+  @Prop({ default: 0 })
   step: number;
 
   @Prop({ default: false })

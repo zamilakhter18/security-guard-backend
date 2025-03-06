@@ -12,22 +12,12 @@ import {
 import { Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class SignUpDto {
+export class SignInDto {
   @ApiProperty({ example: 'test@example.com' })
   @IsEmail()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
-
-  @ApiProperty({ example: 'John' })
-  @IsString()
-  @IsNotEmpty()
-  firstName: string;
-
-  @ApiProperty({ example: 'Doe' })
-  @IsString()
-  @IsNotEmpty()
-  lastName: string;
 
   @ApiProperty({
     example: 'Test@123',
@@ -45,8 +35,4 @@ export class SignUpDto {
   })
   password: string;
 
-  @ApiProperty({ example: '1234' })
-  @IsNotEmpty()
-  @IsString()
-  otp: string;
 }
