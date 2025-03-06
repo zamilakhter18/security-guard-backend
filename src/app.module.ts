@@ -24,7 +24,16 @@ import { APP_GUARD } from '@nestjs/core';
         const dbHost = configService.get('DATABASE_HOST');
         const dbName = configService.get('DATABASE_NAME');
 
-        const uri = `mongodb+srv://${dbUserName}:${dbPassword}@${dbHost}/${dbName}?retryWrites=true&w=majority&appName=DevSecuritGuard`;
+        console.log('-------------db name       ------>>>', dbUserName);
+        console.log('-------------db dbPassword ------>>>', dbPassword);
+        console.log('-------------dbHost        ------>>>', dbHost);
+        console.log('-------------db dbName     ------>>>', dbName);
+
+        // const uri = configService.get('DATABASE_URI');
+        const uri = configService.get('DB_Zamil');
+
+        console.log('-------------db iri        ------>>>', uri);
+
         return { uri };
       },
       inject: [ConfigService],
@@ -47,8 +56,8 @@ import { APP_GUARD } from '@nestjs/core';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    }
+      useClass: ThrottlerGuard,
+    },
   ],
   exports: [],
 })

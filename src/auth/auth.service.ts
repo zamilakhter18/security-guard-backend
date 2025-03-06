@@ -114,7 +114,7 @@ export class AuthService {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        isVerified : user.isVerified,
+        isVerified: user.isVerified,
         step: user.step,
         isProfileSetup: user.isProfileSetup,
       };

@@ -1,20 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Res,
-  UseGuards,
-  Req,
-} from '@nestjs/common';
+import { Controller, Post, Body, Res, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { Request } from 'express';
 import { UserTypeDto } from './dto/user.dto';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
@@ -34,14 +24,33 @@ export class UserController {
     status: 200,
     description: 'UserType set successfully',
     schema: {
-      example: { statusCode: 200, message: 'UserType set successfully' },
+      example: {
+        statusCode: 200,
+        message: 'UserType set successfully',
+        data: {
+          email: 'test@example.com',
+          firstName: 'John',
+          lastName: 'Doe',
+          userType: 'company / individual / client',
+          step: 1,
+          isProfileSetup: false,
+        },
+      },
     },
   })
-  @ApiResponse({
-    status: 400,
+  @ApiBadRequestResponse({
     description: 'Bad request (validation or other errors)',
-    schema: {
-      example: { statusCode: 400, message: 'Invalid user type' },
+    content: {
+      'application/json': {
+        examples: {
+          UserUpdateFailed: {
+            value: { statusCode: 400, message: 'User update failed' },
+          },
+          UserNotFound: {
+            value: { statusCode: 400, message: 'User not found' },
+          },
+        },
+      },
     },
   })
   @ApiResponse({
@@ -49,13 +58,6 @@ export class UserController {
     description: 'Unauthorized',
     schema: {
       example: { statusCode: 401, message: 'Unauthorized user' },
-    },
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found',
-    schema: {
-      example: { statusCode: 400, message: 'User not found' },
     },
   })
   @ApiResponse({

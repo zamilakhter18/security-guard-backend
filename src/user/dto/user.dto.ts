@@ -4,9 +4,7 @@ import { userTypeEnum } from 'src/helpers/constants';
 
 export class UserTypeDto {
   @ApiProperty({
-    example: userTypeEnum.COMPANY,
-    enum: userTypeEnum,
-    description: 'User type: company, individual, or client',
+    example: 'company / individual / client',
   })
   @IsEnum(userTypeEnum, { message: 'Invalid user type' })
   @IsNotEmpty({ message: 'User type is required' })
@@ -14,13 +12,4 @@ export class UserTypeDto {
 }
 
 export class ServicesDto {
-  // @ApiProperty({
-  //   example: userTypeEnum.COMPANY,
-  //   enum: userTypeEnum,
-  //   description: 'User type: company, individual, or client',
-  // })
-
-  // @IsEnum(userTypeEnum, { message: 'Invalid user type' })
-  // @IsNotEmpty({ message: 'Service is required' })
-  // userType: userTypeEnum;
 }

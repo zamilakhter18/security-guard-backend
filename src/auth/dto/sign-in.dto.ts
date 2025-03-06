@@ -19,11 +19,7 @@ export class SignInDto {
   @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
 
-  @ApiProperty({
-    example: 'Test@123',
-    description:
-      'User password (must contain at least 8 characters, one uppercase, one number, and one special character)',
-  })
+  @ApiProperty({ example: 'Test@123' })
   @IsNotEmpty({ message: 'Password is required' })
   @MinLength(8, { message: 'Password must be at least 8 characters long' })
   @Matches(/[A-Z]/, {
@@ -34,5 +30,4 @@ export class SignInDto {
     message: 'Password must contain at least one special character',
   })
   password: string;
-
 }
