@@ -6,10 +6,14 @@ import { JwtService } from 'src/helpers/jwt.service';
 import { ResponseHandler } from 'src/helpers/responseHandler';
 import { MongooseModule } from '@nestjs/mongoose';
 import { USER_MODEL, UserSchema } from 'src/schemas/user.schema';
+import { SERVICE_MODEL, ServiceSchema } from 'src/schemas/service.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: USER_MODEL, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: USER_MODEL, schema: UserSchema },
+      { name: SERVICE_MODEL, schema: ServiceSchema },
+    ]),
   ],
   controllers: [UserController],
   providers: [UserService,AuthGuard,JwtService,ResponseHandler],

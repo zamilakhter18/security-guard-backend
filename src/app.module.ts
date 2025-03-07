@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ServiceModule } from './service/service.module';
+import { OnboardingModule } from './onboarding/onboarding.module';
 
 @Module({
   imports: [
@@ -24,15 +26,15 @@ import { APP_GUARD } from '@nestjs/core';
         const dbHost = configService.get('DATABASE_HOST');
         const dbName = configService.get('DATABASE_NAME');
 
-        console.log('-------------db name       ------>>>', dbUserName);
-        console.log('-------------db dbPassword ------>>>', dbPassword);
-        console.log('-------------dbHost        ------>>>', dbHost);
-        console.log('-------------db dbName     ------>>>', dbName);
+        // console.log('-------------db name       ------>>>', dbUserName);
+        // console.log('-------------db dbPassword ------>>>', dbPassword);
+        // console.log('-------------dbHost        ------>>>', dbHost);
+        // console.log('-------------db dbName     ------>>>', dbName);
 
-        // const uri = configService.get('DATABASE_URI');
-        const uri = configService.get('DB_Zamil');
+        const uri = configService.get('DATABASE_URI');
+        // const uri = configService.get('DB_ZAMIL');
 
-        console.log('-------------db iri        ------>>>', uri);
+        // console.log('-------------db uri        ------>>>', uri);
 
         return { uri };
       },
@@ -50,6 +52,8 @@ import { APP_GUARD } from '@nestjs/core';
 
     AuthModule,
     UserModule,
+    ServiceModule,
+    OnboardingModule,
   ],
   controllers: [AppController],
   providers: [

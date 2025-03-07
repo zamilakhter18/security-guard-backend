@@ -1,4 +1,10 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Request } from 'express';
 import { Model } from 'mongoose';
@@ -9,7 +15,8 @@ import { USER_MODEL, UserDocument } from 'src/schemas/user.schema';
 export class AuthGuard implements CanActivate {
   constructor(
     @InjectModel(USER_MODEL) private readonly userModel: Model<UserDocument>,
-    private readonly jwtService: JwtService) {}
+    private readonly jwtService: JwtService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: any = context.switchToHttp().getRequest<Request>();
@@ -35,6 +42,7 @@ export class AuthGuard implements CanActivate {
       request.user = payload;
       return true;
     } catch (error) {
+      console.log(error);
       throw new ForbiddenException('Invalid or expired token.');
     }
   }

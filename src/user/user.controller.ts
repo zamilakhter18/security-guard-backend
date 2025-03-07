@@ -2,7 +2,7 @@ import { Controller, Post, Body, Res, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { Request } from 'express';
-import { UserTypeDto } from './dto/user.dto';
+import { ServiceDto, UserTypeDto } from './dto/user.dto';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -79,8 +79,8 @@ export class UserController {
   async setServices(
     @Req() req: Request,
     @Res() res: Response,
-    @Body() userTypeDto: UserTypeDto,
+    @Body() serviceDto: ServiceDto,
   ) {
-    return await this.userService.setUserType(req, res, userTypeDto);
+    return await this.userService.setUserService(req, res, serviceDto);
   }
 }

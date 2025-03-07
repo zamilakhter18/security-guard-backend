@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, Double, Types } from 'mongoose';
 import { deviceTypeEnum, userTypeEnum } from 'src/helpers/constants';
 
 @Schema({ timestamps: true })
@@ -43,8 +43,28 @@ export class User extends Document {
   @Prop({})
   countryCode: string;
 
-  @Prop({})
-  address: string;
+  @Prop({ type: Object })
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+  };
+
+  @Prop({
+    type: {
+      type: String,
+      enum: ['Point'],
+    },
+    coordinates: {
+      type: [Number],
+    },
+  })
+  location: {
+    type: string;
+    coordinates: [number, number];
+  };
 
   @Prop({})
   socialSecurityNumber: string;
@@ -71,22 +91,6 @@ export class User extends Document {
 
   @Prop({ default: false })
   isVerified: boolean;
-
-  @Prop({
-    type: {
-      type: String,
-      enum: ['Point'],
-      required: false,
-    },
-    coordinates: {
-      type: [Number],
-      required: false,
-    },
-  })
-  location?: {
-    type: string;
-    coordinates: [number, number];
-  };
 
   @Prop({})
   about: string;

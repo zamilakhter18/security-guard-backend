@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty } from 'class-validator';
+import { IsArray, IsEnum, IsMongoId, IsNotEmpty } from 'class-validator';
 import { userTypeEnum } from 'src/helpers/constants';
 
 export class UserTypeDto {
@@ -11,5 +11,9 @@ export class UserTypeDto {
   userType: userTypeEnum;
 }
 
-export class ServicesDto {
+export class ServiceDto {
+  @ApiProperty({ example: ['65df1b2c3f8a4e001c5a7d5e', '65df1b2c3f8a4e001c5a7d5f'] })
+  @IsArray()
+  // @IsMongoId({ each: true })
+  service: string[];
 }
