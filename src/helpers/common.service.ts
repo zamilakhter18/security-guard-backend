@@ -5,8 +5,13 @@ import { ConfigService } from '@nestjs/config';
 export class CommonService {
   constructor(private configService: ConfigService) {}
 
-  generateOTP() {
-    return Math.floor(1000 + Math.random() * 9000);
+  public generateOtp() {
+    let digits = '123456789';
+    let OTP = '';
+    let len = digits.length;
+    for (let i = 0; i < 4; i++) {
+      OTP += digits[Math.floor(Math.random() * len)];
+    }
+    return OTP;
   }
 }
-

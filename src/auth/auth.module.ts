@@ -7,6 +7,7 @@ import { ResponseHandler } from 'src/helpers/responseHandler';
 import { JwtService } from 'src/helpers/jwt.service';
 import { HashService } from 'src/helpers/hash.service';
 import { EMAIL_OTP_MODEL, EmailOtpSchema } from 'src/schemas/email-otp.schema';
+import { CommonService } from 'src/helpers/common.service';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { EMAIL_OTP_MODEL, EmailOtpSchema } from 'src/schemas/email-otp.schema';
     ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, ResponseHandler,JwtService,HashService],
+  providers: [AuthService, ResponseHandler,JwtService,HashService,CommonService],
   exports : [MongooseModule]
 })
 export class AuthModule {}

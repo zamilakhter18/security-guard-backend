@@ -47,8 +47,8 @@ export class AuthController {
     return this.authService.sendOtp(res, sendOtpDto);
   }
 
-  // @Throttle({ default: { limit: 1, ttl: 60000 } })
   @Post('resend-otp')
+  @Throttle({ default: { limit: 1, ttl: 60000 } }) // 1 request per minute  
   @ApiOperation({ summary: 'Resend OTP to user email' })
   @ApiResponse({
     status: 200,

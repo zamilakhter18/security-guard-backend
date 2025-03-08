@@ -17,8 +17,8 @@ export class ServiceService {
 
     return this.responseHandler.successResponseWithData(
       res,
-      services,
       'Services retrieved successfully',
+      services,
     );
   }
 }

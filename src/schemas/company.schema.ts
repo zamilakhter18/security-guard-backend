@@ -19,7 +19,7 @@ export class Company extends Document {
   countryShortName: string;
 
   @Prop({ required: true })
-  phoneNumber: string;
+  phone: string;
 
   @Prop({ type: Object })
   address: {
@@ -44,7 +44,7 @@ export class Company extends Document {
     coordinates: [number, number];
   };
 
-  @Prop({ required: true })
+  @Prop({ })
   companySize: string;
 
   @Prop()

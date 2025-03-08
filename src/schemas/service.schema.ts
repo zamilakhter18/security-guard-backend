@@ -4,7 +4,7 @@ import { Document } from 'mongoose';
 @Schema()
 export class Service extends Document {
   @Prop({ required: true })
-  service: string;
+  name: string;
 }
 
 export type ServiceDocument = Service & Document;

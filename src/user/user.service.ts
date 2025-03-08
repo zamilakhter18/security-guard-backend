@@ -11,7 +11,8 @@ import mongoose, { Model } from 'mongoose';
 export class UserService {
   constructor(
     @InjectModel(USER_MODEL) private readonly userModel: Model<UserDocument>,
-    @InjectModel(SERVICE_MODEL) private readonly serviceModel: Model<ServiceDocument>,
+    @InjectModel(SERVICE_MODEL)
+    private readonly serviceModel: Model<ServiceDocument>,
     private readonly responseHandler: ResponseHandler,
   ) {}
   async setUserType(req: any, res: any, userTypeDto: UserTypeDto) {
@@ -24,8 +25,8 @@ export class UserService {
       }
 
       const updateData: any = { userType: userTypeDto.userType };
-      if (user.step < 1) {
-        updateData.step = 1;
+      if (user.step === 1) {
+        updateData.step = 2;
       }
 
       const updatedUser = await this.userModel.findByIdAndUpdate(
@@ -48,8 +49,8 @@ export class UserService {
       };
       return this.responseHandler.successResponseWithData(
         res,
-        responseData,
         'User created successfully',
+        responseData,
       );
     } catch (error) {
       console.error(error.message);
@@ -93,7 +94,7 @@ export class UserService {
         userId,
         {
           services: serviceIds,
-          step: { $max: [2, '$step'] }, // Ensures step is at least 2
+          step: 3, // Ensures step is at least 3
         },
         { new: true },
       );
@@ -114,8 +115,8 @@ export class UserService {
 
       return this.responseHandler.successResponseWithData(
         res,
-        responseData,
         'User service has been set successfully',
+        responseData,
       );
     } catch (error) {
       console.error(error.message);

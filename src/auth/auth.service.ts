@@ -13,6 +13,7 @@ import {
   EmailOtpDocument,
 } from 'src/schemas/email-otp.schema';
 import { SignInDto } from './dto/sign-in.dto';
+import { CommonService } from 'src/helpers/common.service';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +24,7 @@ export class AuthService {
     private readonly responseHandler: ResponseHandler,
     private readonly jwtService: JwtService,
     private readonly hashService: HashService,
+    private readonly commonService: CommonService,
   ) {}
   async sendOtp(res: Response, sendOtpDto: SendOtpDto) {
     try {
@@ -33,7 +35,8 @@ export class AuthService {
         return this.responseHandler.errorResponse(res, 'User already exists');
       }
 
-      // generate otp further
+      //! const otp = this.commonService.generateOtp();
+
       const otp = 1234;
 
       const storedOtp = await this.emailOtpModel.findOneAndUpdate(
@@ -43,8 +46,8 @@ export class AuthService {
       );
       return this.responseHandler.successResponseWithData(
         res,
-        { email, otp },
         'OTP sent successfully',
+        { email, otp },
       );
     } catch (error) {
       console.error(error.message);
@@ -73,7 +76,12 @@ export class AuthService {
         firstName,
         lastName,
         password,
+        step: 1,
       });
+
+      if (!createdUser) {
+        return this.responseHandler.errorResponse(res, 'User creation failed');
+      }
 
       const token = await this.jwtService.sign({ sub: createdUser.id });
       const responseData = {
@@ -85,9 +93,9 @@ export class AuthService {
       };
       return this.responseHandler.successResponseWithDataAndToken(
         res,
+        'User created successfully',
         responseData,
         token,
-        'User created successfully',
       );
     } catch (error) {
       console.error(error.message);
@@ -121,9 +129,9 @@ export class AuthService {
 
       return this.responseHandler.successResponseWithDataAndToken(
         res,
+        'User login successfully',
         responseData,
         token,
-        'User login successfully',
       );
     } catch (error) {
       console.error(error.message);

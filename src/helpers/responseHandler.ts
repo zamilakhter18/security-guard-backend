@@ -7,31 +7,31 @@ export class ResponseHandler {
     return res.status(200).json({ statusCode: 200, message: msg });
   }
 
-  successResponseWithData(res: Response, responseData, msg: string) {
+  successResponseWithData(res: Response, msg: string, responseData) {
     return res
       .status(200)
       .json({ statusCode: 200, message: msg, data: responseData });
   }
 
-  successResponseWithToken(res: Response, token: string, msg: string) {
+  successResponseWithToken(res: Response, msg: string, token: string) {
     return res.status(200).json({
       statusCode: 200,
-      token: token,
       message: msg,
+      token: token,
     });
   }
 
   successResponseWithDataAndToken(
     res: Response,
+    msg: string,
     responseData = {},
     token: string,
-    msg: string,
   ) {
     return res.status(200).json({
       statusCode: 200,
+      message: msg,
       data: responseData,
       token: token,
-      message: msg,
     });
   }
 

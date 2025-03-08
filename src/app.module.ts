@@ -21,20 +21,8 @@ import { OnboardingModule } from './onboarding/onboarding.module';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
-        const dbUserName = configService.get('DATABASE_USERNAME');
-        const dbPassword = configService.get('DATABASE_PASSWORD');
-        const dbHost = configService.get('DATABASE_HOST');
-        const dbName = configService.get('DATABASE_NAME');
-
-        // console.log('-------------db name       ------>>>', dbUserName);
-        // console.log('-------------db dbPassword ------>>>', dbPassword);
-        // console.log('-------------dbHost        ------>>>', dbHost);
-        // console.log('-------------db dbName     ------>>>', dbName);
-
-        const uri = configService.get('DATABASE_URI');
-        // const uri = configService.get('DB_ZAMIL');
-
-        // console.log('-------------db uri        ------>>>', uri);
+        // const uri = configService.get('DATABASE_URI');
+        const uri = configService.get('DB_ZAMIL');
 
         return { uri };
       },
