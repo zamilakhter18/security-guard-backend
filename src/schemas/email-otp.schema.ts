@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+// !Email otp phone otp same collection
 @Schema({ timestamps: true })
 export class EmailOtp extends Document {
   @Prop({ required: true, unique: true, lowercase: true })

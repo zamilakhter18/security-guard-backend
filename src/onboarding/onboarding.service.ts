@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ResponseHandler } from 'src/helpers/responseHandler';
 import { userTypeEnum } from 'src/helpers/constants';
 import { USER_MODEL, UserDocument } from 'src/schemas/user.schema';
+import { SetDateOfBirthDto } from './dto/set-date-of-birth.dto';
 
 @Injectable()
 export class OnboardingService {
@@ -33,7 +34,7 @@ export class OnboardingService {
         );
       }
 
-      console.log('-----------------',user.companyId);
+      console.log('-----------------', user.companyId);
       if (user.companyId) {
         return this.responseHandler.errorResponse(
           res,
@@ -106,4 +107,60 @@ export class OnboardingService {
       return this.responseHandler.catchErrorResponse(res);
     }
   }
+
+  async dateOfBirth(req, res: Response, setDateOfBirthDto: SetDateOfBirthDto) {
+    try {
+      const userId = req?.user?.sub;
+
+      const user = await this.userModel.findById(userId).lean();
+      if (!user) {
+        return this.responseHandler.errorResponse(res, 'User not found');
+      }
+
+      // Determine the step based on userType
+      let step: number;
+      if (user.userType === 'client') {
+        step = 3;
+      } else if (user.userType === 'individual') {
+        step = 5;
+      } else {
+        // Handle unexpected userType if necessary
+        return this.responseHandler.errorResponse(res, 'Invalid user type');
+      }
+
+      const updatedUser = await this.userModel
+        .findByIdAndUpdate(userId, {
+          dateOfBirth: setDateOfBirthDto.dateOfBirth,
+          step,
+        })
+        .lean();
+      if (!updatedUser) {
+        return this.responseHandler.errorResponse(res, 'User updation failed');
+      }
+
+      const responseData = {
+        email: updatedUser.email,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        userType: updatedUser.userType,
+        step: updatedUser.step,
+        isProfileSetup: updatedUser.isProfileSetup,
+        isVerified: updatedUser.isVerified,
+      };
+
+      return this.responseHandler.successResponseWithData(
+        res,
+        'Date of birth updated',
+        responseData,
+      );
+    } catch (error) {
+      console.error(error.message);
+      return this.responseHandler.catchErrorResponse(res);
+    }
+  }
+
+  async sendPhoneOtp(req, res: Response) {
+    
+  }
+
 }
