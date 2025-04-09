@@ -1,13 +1,16 @@
-import { Controller, Get, Res } from '@nestjs/common';
-import { ServiceService } from './service.service';
-import { Response } from 'express';
+import { Controller, Get, Res } from "@nestjs/common";
+import { ServiceService } from "./service.service";
+import { Response } from "express";
+import { ListAllServicesSwagger, ServiceTag } from "./service.swagger";
 
-@Controller('service')
+@ServiceTag()
+@Controller({ version: "1", path: "service" })
 export class ServiceController {
   constructor(private readonly serviceService: ServiceService) {}
 
-  @Get()
-  async listAllServices( @Res() res: Response) {
+  @Get("get-all-services")
+  @ListAllServicesSwagger()
+  async listAllServices(@Res() res: Response) {
     return await this.serviceService.listAllServices(res);
   }
 }

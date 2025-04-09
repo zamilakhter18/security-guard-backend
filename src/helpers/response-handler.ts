@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Response } from 'express';
+import { Injectable } from "@nestjs/common";
+import { Response } from "express";
 
 @Injectable()
 export class ResponseHandler {
@@ -8,9 +8,7 @@ export class ResponseHandler {
   }
 
   successResponseWithData(res: Response, msg: string, responseData) {
-    return res
-      .status(200)
-      .json({ statusCode: 200, message: msg, data: responseData });
+    return res.status(200).json({ statusCode: 200, message: msg, data: responseData });
   }
 
   successResponseWithToken(res: Response, msg: string, token: string) {
@@ -21,12 +19,7 @@ export class ResponseHandler {
     });
   }
 
-  successResponseWithDataAndToken(
-    res: Response,
-    msg: string,
-    responseData = {},
-    token: string,
-  ) {
+  successResponseWithDataAndToken(res: Response, msg: string, responseData = {}, token: string) {
     return res.status(200).json({
       statusCode: 200,
       message: msg,
@@ -52,8 +45,10 @@ export class ResponseHandler {
   }
 
   catchErrorResponse(res: Response) {
-    return res
-      .status(500)
-      .json({ statusCode: 500, error: 'Internal Server Error' });
+    return res.status(500).json({ statusCode: 500, error: "Something Went Wrong" });
+  }
+
+  catchErrorResponseWithMesage(res: Response, msg: string) {
+    return res.status(500).json({ statusCode: 500, error: "Something Went Wrong", message: msg });
   }
 }

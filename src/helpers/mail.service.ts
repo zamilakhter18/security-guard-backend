@@ -1,28 +1,49 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import * as sgMail from '@sendgrid/mail';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import sgMail from "@sendgrid/mail";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class MailService {
+  private readonly logger = new Logger(MailService.name);
+  private readonly senderEmail: string;
+  private readonly companyName: string;
+
   constructor(private readonly configService: ConfigService) {
-    sgMail.setApiKey(this.configService.get<string>('SENDGRID_API_KEY'));
+    const apiKey = this.configService.get<string>("SENDGRID_API_KEY");
+    if (!apiKey) {
+      throw new InternalServerErrorException("SENDGRID_API_KEY is missing in environment variables");
+    }
+
+    sgMail.setApiKey(apiKey);
+
+    this.senderEmail = this.configService.get<string>("SENDGRID_FROM_EMAIL");
+    // this.companyName = this.configService.get<string>("COMPANY_NAME");
+
+    if (!this.senderEmail) {
+      throw new InternalServerErrorException("SENDER_EMAIL is missing in environment variables");
+    }
+    // else if(!this.companyName){
+    //   throw new InternalServerErrorException("COMPANY_NAME is missing in environment variables");
+    // }
   }
 
-  async sendMail(to: string, subject: string, text: string, html?: string) {
+  async sendEmail(to: string, subject: string, html: string): Promise<void> {
     try {
-      const msg = {
+      const mailOptions = {
         to,
-        from: this.configService.get<string>('SENDGRID_FROM_EMAIL'),
+        from: {
+          email: this.senderEmail,
+          // name: this.companyName,
+        },
         subject,
-        text,
-        html: html || text, // Use HTML if provided
+        html,
       };
 
-      await sgMail.send(msg);
-      return { success: true, message: 'Email sent successfully' };
+      await sgMail.send(mailOptions);
+      this.logger.debug('Email sent successfully to: ', to);
     } catch (error) {
-      console.error('Error sending email:', error);
-      return { success: false, message: 'Failed to send email' };
+      this.logger.error(`Failed to send email to: ${to}`, error.response?.body || error.message);
+      throw new InternalServerErrorException("Email sending failed");
     }
   }
 }

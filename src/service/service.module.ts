@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { ServiceService } from './service.service';
-import { ServiceController } from './service.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { SERVICE_MODEL, ServiceSchema } from 'src/schemas/service.schema';
-import { ResponseHandler } from 'src/helpers/responseHandler';
+import { Module } from "@nestjs/common";
+import { ServiceService } from "./service.service";
+import { ServiceController } from "./service.controller";
+import { MongooseModule } from "@nestjs/mongoose";
+import { SERVICE_MODEL, ServiceSchema } from "src/schemas/service.schema";
+import { ResponseHandler } from "src/helpers/response-handler";
 
 @Module({
   imports: [

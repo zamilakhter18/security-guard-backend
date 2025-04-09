@@ -1,23 +1,24 @@
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  ForbiddenException,
-} from '@nestjs/common';
-import { Request } from 'express';
-import { userTypeEnum } from '../helpers/constants';
+import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { userTypeEnum } from "../helpers/constants";
+import { USER_MODEL, UserDocument } from "src/schemas/user.schema";
 
 @Injectable()
 export class CompanyGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean {
-    const request: any = context.switchToHttp().getRequest<Request>();
+  constructor(@InjectModel(USER_MODEL) private readonly userModel: Model<UserDocument>) {}
 
-    if (!request.user) {
-      throw new ForbiddenException('Unauthorized access.');
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const userId = request?.user?.id || request?.user?.sub;
+
+    if (!userId) {
+      throw new ForbiddenException("Unauthorized access: User ID missing.");
     }
 
-    if (request.user.userType !== userTypeEnum.COMPANY) {
-      throw new ForbiddenException('Access restricted to Company only.');
+    const user = await this.userModel.findById(userId).lean();
+    if (!user || user.userType !== userTypeEnum.COMPANY) {
+      throw new ForbiddenException("Access allowed only for companies.");
     }
 
     return true;

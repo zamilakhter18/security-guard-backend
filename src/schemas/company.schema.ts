@@ -1,24 +1,24 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Double } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document, Double } from "mongoose";
 
 @Schema()
 export class Company extends Document {
-  @Prop({ required: true })
+  @Prop()
   name: string;
 
-  @Prop({ required: true })
+  @Prop()
   contactName: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop()
   countryCode: string;
 
-  @Prop({ required: true })
+  @Prop()
   countryShortName: string;
 
-  @Prop({ required: true })
+  @Prop()
   phone: string;
 
   @Prop({ type: Object })
@@ -33,7 +33,7 @@ export class Company extends Document {
   @Prop({
     type: {
       type: String,
-      enum: ['Point'],
+      enum: ["Point"],
     },
     coordinates: {
       type: [Number],
@@ -44,8 +44,11 @@ export class Company extends Document {
     coordinates: [number, number];
   };
 
-  @Prop({ })
-  companySize: string;
+  // @Prop({ })
+  // companyMinSize: string;
+
+  @Prop({})
+  companyMaxSize: string;
 
   @Prop()
   companyLogo: string;

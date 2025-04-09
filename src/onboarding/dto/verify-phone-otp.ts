@@ -1,0 +1,22 @@
+import { IsNotEmpty, IsString, Matches } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+
+export class VerifyPhoneOtpDto {
+  @ApiProperty({ example: "+1" })
+  @IsNotEmpty()
+  @IsString()
+  countryCode: string;
+
+  @ApiProperty({ example: "1234567890" })
+  @IsNotEmpty()
+  @IsString()
+  @Matches(/^\+?[1-9]\d{1,14}$/, {
+    message: "Phone number must be a valid",
+  }) // Ensures a valid phone format
+  phone: string;
+
+  @ApiProperty({ example: "1234" })
+  @IsNotEmpty()
+  @IsString()
+  otp: string;
+}

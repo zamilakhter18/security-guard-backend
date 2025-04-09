@@ -1,49 +1,55 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Double, Types } from 'mongoose';
-import { deviceTypeEnum, userTypeEnum } from 'src/helpers/constants';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document, Double, Types } from "mongoose";
+import { deviceTypeEnum, loinTypeEnum, userTypeEnum } from "src/helpers/constants";
 
 @Schema({ timestamps: true })
 export class User extends Document {
-  @Prop({ unique: true, required: true })
+  @Prop({ unique: true, default: null })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ default: false })
+  isEmailVerified: boolean;
+
+  @Prop({ default: null })
   firstName: string;
 
-  @Prop({ required: true })
+  @Prop({ default: null })
   lastName: string;
 
-  @Prop({ required: true })
+  @Prop({ default: null })
   password: string;
 
-  @Prop({ type: [String] })
-  socialProviders: string[];
-
-  @Prop({ type: Types.ObjectId, ref: 'Company' })
+  @Prop({ type: Types.ObjectId, ref: "Company", default: null })
   companyId: Types.ObjectId;
 
-  @Prop({ required: false })
-  socialLoginType: string;
+  @Prop({ type: String, default: null })
+  socialId: string;
 
-  @Prop({ type: String, enum: Object.values(userTypeEnum) })
-  userType: userTypeEnum;
+  @Prop({ type: String, enum: Object.values(loinTypeEnum), default: null })
+  loginType: string;
 
-  @Prop({ required: false })
-  dateOfBirth: Date;
+  @Prop({ type: String, enum: Object.values(userTypeEnum), default: null })
+  userType: string;
 
-  @Prop({ type: [String] })
-  services: string[];
+  @Prop({ default: null })
+  dateOfBirth: string;
 
-  @Prop({})
+  @Prop({ type: [{ type: Types.ObjectId, ref: "Service" }], default: null })
+  services: Types.ObjectId[];
+
+  @Prop({ default: null })
   profilePhoto: string;
 
-  @Prop({})
-  phoneNumber: string;
-
-  @Prop({})
+  @Prop({ default: null })
   countryCode: string;
 
-  @Prop({ type: Object })
+  @Prop({ default: null })
+  phone: string;
+
+  @Prop({ default: false })
+  isPhoneVerified: boolean;
+
+  @Prop({ type: Object, default: null })
   address: {
     street: string;
     city: string;
@@ -55,10 +61,12 @@ export class User extends Document {
   @Prop({
     type: {
       type: String,
-      enum: ['Point'],
+      enum: ["Point"],
+      default: null,
     },
     coordinates: {
       type: [Number],
+      default: null,
     },
   })
   location: {
@@ -66,20 +74,12 @@ export class User extends Document {
     coordinates: [number, number];
   };
 
-  @Prop({})
+  @Prop({ default: null })
   socialSecurityNumber: string;
 
-  @Prop({})
-  otp: string;
-
   @Prop({
-    type: {
-      idCardFront: String,
-      idCardBack: String,
-      wForm: String,
-      licence: String,
-      insurance: String,
-    },
+    type: Object,
+    default: null,
   })
   document: {
     idCardFront: string;
@@ -92,13 +92,13 @@ export class User extends Document {
   @Prop({ default: false })
   isVerified: boolean;
 
-  @Prop({})
+  @Prop({ default: null })
   about: string;
 
-  @Prop({ type: String, enum: Object.values(deviceTypeEnum) })
+  @Prop({ type: String, enum: Object.values(deviceTypeEnum), default: null })
   deviceType: deviceTypeEnum;
 
-  @Prop({})
+  @Prop({ default: null })
   deviceToken: string;
 
   @Prop({ default: 0 })
@@ -106,6 +106,18 @@ export class User extends Document {
 
   @Prop({ default: false })
   isProfileSetup: boolean;
+
+  @Prop({ default: false })
+  acceptedNonDisclosure: boolean;
+
+  @Prop({ default: null })
+  totalGuard: string;
+
+  @Prop({ default: null })
+  totalSecurity: string;
+
+  @Prop({ default: null })
+  gender: string;
 }
 
 export type UserDocument = User & Document;
